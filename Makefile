@@ -3,13 +3,13 @@ up:
 build:
 	docker-compose build --no-cache --force-rm
 laravel-install:
-	docker-compose exec web composer create-project --prefer-dist laravel/laravel .
+	docker-compose exec web composer create-project --prefer-dist "laravel/lumen=7.*" .
 create-project:
 	@make build
 	@make up
 	@make laravel-install
-	docker-compose exec web php artisan key:generate
-	docker-compose exec web php artisan storage:link
+	# docker-compose exec web php artisan key:generate
+	# docker-compose exec web php artisan storage:link
 	@make fresh
 install-recommend-packages:
 	docker-compose exec web composer require doctrine/dbal
@@ -60,6 +60,8 @@ log-db-watch:
 	docker-compose logs --follow db
 web:
 	docker-compose exec web bash
+artisan:
+	docker-compose exec web php artisan
 migrate:
 	docker-compose exec web php artisan migrate
 fresh:
